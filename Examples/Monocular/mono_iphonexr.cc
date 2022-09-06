@@ -15,7 +15,7 @@ std::string base_name(std::string const & path)
 
 std::string remove_extension(std::string const & filename)
 {
-    size_t p = filename.find_last_not_of('.');
+    std::size_t p = filename.rfind('.');
     return p > 0 && p != std::string::npos ? filename.substr(0, p) : filename;
 }
 
@@ -46,9 +46,6 @@ int main(int argc, char **argv)
     float imageScale = SLAM.GetImageScale();
 
     std::cout << "Image scale: " << imageScale << std::endl;
-
-    double t_resize = 0.f;
-    double t_track = 0.f;
 
     // Main loop
     cv::Mat image;
