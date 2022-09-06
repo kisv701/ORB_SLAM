@@ -1,11 +1,23 @@
-#include<iostream>
-#include<algorithm>
-#include<fstream>
-#include<chrono>
+#include <iostream>
+#include <algorithm>
+#include <fstream>
+#include <chrono>
 
-#include<opencv2/core/core.hpp>
+#include <opencv2/core/core.hpp>
 
-#include<System.h>
+#include <System.h>
+
+
+std::string base_name(std::string const & path)
+{
+    return path.substr(path.find_last_of("/") + 1);
+}
+
+std::string remove_extension(std::string const & filename)
+{
+    size_t p = filename.find_last_not_of('.');
+    return p > 0 && p != std::string::npos ? filename.substr(0, p) : filename;
+}
 
 int main(int argc, char **argv)
 {  
@@ -76,8 +88,9 @@ int main(int argc, char **argv)
     // Save camera trajectory
     if (1)
     {
-        const string kf_file =  "kf_" + file_path + ".txt";
-        const string f_file =  "f_" + file_path + ".txt";
+        const string filename = remove_extension(base_name(file_path));
+        const string kf_file =  "kf_" + filename + ".txt";
+        const string f_file =  "f_" + filename + ".txt";
         SLAM.SaveTrajectoryEuRoC(f_file);
         SLAM.SaveKeyFrameTrajectoryEuRoC(kf_file);
     }
