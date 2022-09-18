@@ -33,14 +33,15 @@ int main(int argc, char **argv)
     cout << endl << "-------" << endl;
     cout.precision(17);
 
-
-    int fps = 20;
-    float dT = 1.f/fps;
-
     std::string orb_vocabulary_path = "./Vocabulary/ORBvoc.txt";
     std::string settings_path = "./Examples/Monocular/IphoneXR.yaml";
 
+    cv::FileStorage fSettings(settings_path, cv::FileStorage::READ);
+    int fps = fSettings["Camera.fps"];
+    float dT = 1.f/fps;
+
     bool enablePanglinVisualization = false;
+
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
     ORB_SLAM3::System SLAM(orb_vocabulary_path, settings_path, ORB_SLAM3::System::MONOCULAR, enablePanglinVisualization);
     float imageScale = SLAM.GetImageScale();
